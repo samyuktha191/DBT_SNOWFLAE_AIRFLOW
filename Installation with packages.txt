@@ -1,0 +1,112 @@
+--------------------------------------------------------------------
+------------create virtual environment
+--------------------------------------------------------------------
+Create a Virtual Environment (optional but recommended):
+If you are not already using a virtual environment, create one to keep your dependencies isolated.
+
+If Python 3 is not installed, you can install it using the following command:
+$sudo apt install python3
+$sudo apt update
+
+Install the python3-venv package:
+If the venv module is not available, you can install it using:
+$sudo apt install python3-venv
+
+Create a virtual environment
+python3 -m venv <Virtual_env_name>-venv
+example-
+python3 -m venv sf_dbt_af-venv
+
+activate virtual environment
+$source sf_dbt_af-venv/bin/activate
+
+Note-if we have to deactivate a Python virtual environment (sf_dbt_af-venv in this case), you can use the following command:
+$deactivate
+--------------------------------------------------------------------
+Note : upgrade versions everytime we create anew project in specific virtual env
+--------------------------------------------------------------------
+Upgrade dbt: This command will update dbt to the latest available version.
+(sf_dbt_af-venv) abc@DESKTOP:~$pip install --upgrade dbt  
+Plugins:  
+(sf_dbt_af-venv) abc@DESKTOP:~$pip install --upgrade dbt-snowflake
+
+Install the Snowflake Connector: This command will update the SF connector to the latest available version.
+(sf_dbt_af-venv) abc@DESKTOP:~$pip install snowflake-connector-python
+
+Verify the Installation
+After upgrading, you can verify the installation by checking the versions of the installed packages:
+
+$dbt --version
+$pip show snowflake-connector-python
+
+--------------------------------------------------------------------
+before we initialize a dbt project make sure we are ready with above env setup and should be in actived environment
+--------------------------------------------------------------------
+(sf_sf_dbt_af-venv) abc@DESKTOP:~/$ dbt init
+15:15:08  Running with dbt=1.8.4
+Enter a name for your project (letters, digits, underscore): sf_dbt
+15:15:18
+Your new dbt project "sf_dbt" was created!
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+15:15:18  Setting up your profile.
+Which database would you like to use?
+[1] postgres
+[2] redshift
+[3] snowflake
+
+(Don't see the one you want? https://docs.getdbt.com/docs/available-adapters)
+
+Enter a number: 3
+account (https://<this_value>.snowflakecomputing.com): <mention snowflake connection value>
+user (dev username): <snowflake_username>
+[1] password
+[2] keypair
+[3] sso
+Desired authentication type option (enter a number): 1
+password (dev password): <snowflake password>
+role (dev role): DBTSF_ROLE
+warehouse (warehouse name): DBTSF_WH
+database (default database that dbt will build objects in): DBTSF_DB
+schema (default schema that dbt will build objects in): DBT_SCHEMA
+threads (1 or more) [1]: 10
+15:17:42  Profile sf_dbt written to /home/abc/.dbt/profiles.yml using target's profile_template.yml and your supplied values. Run 'dbt debug' to validate the connection.
+
+
+Note - we can edit connection details in this path /home/abc/.dbt/profiles.yml
+--------------------------------------------------------------------
+--------------------------------------------------------------------
+now, navigate to sf_dbt directory and open VS code editor 
+(sf_sf_dbt_af-venv) abc@DESKTOP:~/$cd sf_dbt
+(sf_sf_dbt_af-venv) abc@DESKTOP:~sf_dbt/$code .
+
+dbt_utils =====Installation
+dbt version required: >=1.3.0, <2.0.0
+
+Include the following in your packages.yml file in sf_dbt folder :
+
+packages:
+  - package: dbt-labs/dbt_utils
+    version: 1.2.0
+
+save and close the file
+in VS code terminal run dbt deps , this will install required dbt utils in dbt packages folder
+(sf_sf_dbt_af-venv) abc@DESKTOP:~/$dbt deps
+Run dbt deps to install the package.
+--------------------------------------------------------------------
+Note:refer below link for latest dbt_utils version
+
+https://hub.getdbt.com/dbt-labs/dbt_utils/latest/
+--------------------------------------------------------------------
